@@ -1,0 +1,66 @@
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set_style("whitegrid")
+%matplotlib inline
+
+df = pd.read_csv('/kaggle/input/titanic/train.csv')  # adjust path if needed
+
+
+print(df.shape)
+df.head()
+
+          
+plt.figure(figsize=(6,4))
+sns.countplot(x='Survived', data=df, palette='Set2')
+plt.title('Survival Counts (0 = No, 1 = Yes)')
+plt.xlabel('Survived')
+plt.ylabel('Count')
+plt.xticks([0,1], ['No','Yes'])
+plt.show()
+
+
+plt.figure(figsize=(6,4))
+sns.countplot(x='Sex', hue='Survived', data=df, palette='Set1')
+plt.title('Survival by Sex')
+plt.ylabel('Count')
+plt.legend(['No','Yes'])
+plt.show()
+
+
+plt.figure(figsize=(6,4))
+sns.countplot(x='Pclass', hue='Survived', data=df, palette='Set1')
+plt.title('Survival by Pclass')
+plt.ylabel('Count')
+plt.legend(['No','Yes'])
+plt.show()
+
+
+plt.figure(figsize=(8,5))
+sns.histplot(data=df, x='Age', bins=30, kde=True, hue='Survived', palette='Set2', alpha=0.5)
+plt.title('Age Distribution by Survival')
+plt.show()
+
+
+plt.figure(figsize=(10,6))
+sns.boxplot(x='Pclass', y='Fare', hue='Survived', data=df, palette='Set3')
+plt.yscale('log')
+plt.title('Fare (log scale) by Pclass & Survival')
+plt.show()
+
+
+corr = df[['Survived','Pclass','Age','SibSp','Parch','Fare']].corr()
+plt.figure(figsize=(6,5))
+sns.heatmap(corr, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Feature Correlation Matrix')
+plt.show()
+
+
+plt.figure(figsize=(6,4))
+sns.barplot(x='Embarked', y='Survived', data=df, palette='Set2')
+plt.title('Survival Rate by Port of Embarkation')
+plt.ylabel('Survival Rate')
+plt.show()
